@@ -915,87 +915,40 @@ function bindEvents() {
     if (e.target.files.length) handleImportFile(e.target.files[0]);
   });
   el("cancelImport").addEventListener("click", resetImportUI);
-  
-el("deleteAllData")?.addEventListener("click", async () => {
-
-  const confirmacao = prompt(
-    'Digite APAGAR para excluir TODOS os dados do sistema:'
-  );
-
-  if (confirmacao !== "APAGAR") {
-    toast("Operação cancelada.", "x-circle");
-    return;
-  }
-
-  try {
-
-    // remove localStorage
-    localStorage.removeItem(LS_KEY);
-
-    // limpa banco em memória
-    state.regras = [];
-    state.ocorrencias = [];
-
-    // limpa filtros
-    Object.keys(state.filtros).forEach(key => {
-      state.filtros[key] = [];
-    });
-
-    // limpa multiselects
-    if (state.multiSelects) {
-      Object.values(state.multiSelects).forEach(ms => {
-        ms.clear();
-      });
-    }
-
-    // limpa buscas
-    state.buscaGlobal = "";
-
-    if (el("globalSearch")) {
-      el("globalSearch").value = "";
-    }
-
-    if (el("dashTableSearch")) {
-      el("dashTableSearch").value = "";
-    }
-
-    if (el("fullTableSearch")) {
-      el("fullTableSearch").value = "";
-    }
-
-    state.fullTable.search = "";
-    state.fullTable.page = 1;
-    state.dashTable.search = "";
-
-    // limpa calendário
-    if (state.calendar) {
-      state.calendar.removeAllEvents();
-    }
-
-    // atualiza a interface
+  el("confirmImport").addEventListener("click", async () => {
+    if (!pendingImportRegras) return;
+    const replace = el("importReplace").checked;
+    state.regras = replace ? pendingImportRegras : [...state.regras, ...pendingImportRegras];
+    await DB.saveRegras(state.regras);
     buildYearSelect();
     recomputeOccurrences();
     buildFilterOptions();
-    renderActiveFilterChips();
     renderAll();
+    toast(`${pendingImportRegras.length} ensaio(s) importado(s) com sucesso.`, "check2-circle");
+    resetImportUI();
+    setView("dashboard");
+  });
 
-    toast(
-      "Todos os dados foram apagados com sucesso.",
-      "trash"
+  // zona de risco: apagar todos os registros
+  el("clearAllData").addEventListener("click", async () => {
+    if (!state.regras.length) { toast("A base já está vazia.", "info-circle"); return; }
+    const ok = confirm(
+      `Tem certeza que deseja apagar TODOS os ${state.regras.length} ensaios da base?\n` +
+      `Esta ação não pode ser desfeita. Você pode reimportar a planilha depois, se precisar.`
     );
-
-  } catch (erro) {
-
-    console.error(erro);
-
-    toast(
-      "Erro ao apagar os dados.",
-      "exclamation-triangle"
-    );
-  }
-
-});
-
+    if (!ok) return;
+    state.regras = [];
+    await DB.saveRegras([]);
+    Object.keys(state.filtros).forEach(k => state.filtros[k] = []);
+    Object.values(state.multiSelects).forEach(ms => ms.clear());
+    renderActiveFilterChips();
+    buildYearSelect();
+    recomputeOccurrences();
+    buildFilterOptions();
+    resetImportUI();
+    renderAll();
+    toast("Todos os registros de ensaio foram removidos.", "trash3");
+  });
 }
 
 function updateThemeToggleLabel() {

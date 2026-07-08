@@ -674,6 +674,30 @@ button{font-family:inherit;}
   gap:1rem;
   flex-wrap:wrap;
 }
+.danger-sep{border:none; border-top:1px solid var(--line); margin:1.6rem 0 1.3rem;}
+.danger-zone{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1.2rem;
+  flex-wrap:wrap;
+  background:rgba(212,63,75,.06);
+  border:1px solid rgba(212,63,75,.25);
+  border-radius:var(--radius-sm);
+  padding:1rem 1.2rem;
+}
+.danger-zone h3{
+  font-size:.9rem;
+  margin:0 0 .25rem;
+  font-weight:600;
+  font-family:var(--font-body);
+  color:var(--tipo-quadrimestral);
+  display:flex;
+  align-items:center;
+  gap:.5rem;
+}
+.danger-zone p{margin:0; font-size:.8rem; max-width:480px;}
+.danger-zone .btn{flex:0 0 auto; white-space:nowrap;}
 
 /* ---------------- Event modal ---------------- */
 .modal-content{
