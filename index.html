@@ -235,36 +235,26 @@
             <input type="file" id="fileInput" accept=".xlsx,.xls" hidden>
           </div>
           <div id="importSummary" class="import-summary d-none"></div>
-         
-<div class="import-actions d-none" id="importActions">
+          <div class="import-actions d-none" id="importActions">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="importReplace" checked>
+              <label class="form-check-label" for="importReplace">Substituir dados atuais (em vez de adicionar)</label>
+            </div>
+            <button class="btn btn-accent" id="confirmImport"><i class="bi bi-check2-circle"></i> Confirmar importação</button>
+            <button class="btn btn-outline-secondary" id="cancelImport">Cancelar</button>
+          </div>
 
-    <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" id="importReplace">
-        <label class="form-check-label" for="importReplace">
-            Substituir dados atuais (em vez de adicionar)
-        </label>
-    </div>
-
-    <div class="d-flex gap-2 flex-wrap mt-3">
-
-        <button class="btn btn-accent" id="confirmImport">
-            <i class="bi bi-check2-circle"></i>
-            Confirmar importação
-        </button>
-
-        <button class="btn btn-outline-secondary" id="cancelImport">
-            Cancelar
-        </button>
-
-        <button class="btn btn-warning" id="restoreOriginalData">
-            <i class="bi bi-arrow-clockwise"></i>
-            Restaurar Dados Originais
-        </button>
-
-    </div>
-
-</div>
-
+          <hr class="danger-sep">
+          <div class="danger-zone">
+            <div>
+              <h3><i class="bi bi-exclamation-triangle"></i> Zona de risco</h3>
+              <p class="muted">
+                Remove permanentemente todos os ensaios da base (dados importados e originais).
+                Use antes de reimportar uma planilha, para evitar registros duplicados.
+              </p>
+            </div>
+            <button class="btn btn-outline-danger" id="clearAllData"><i class="bi bi-trash3"></i> Limpar todos os registros</button>
+          </div>
         </div>
       </section>
 
