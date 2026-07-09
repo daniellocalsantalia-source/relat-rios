@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pauta — Calendário de Ensaios</title>
+<title>Regional Teresina - Calendário de Ensaios</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
@@ -35,7 +35,7 @@
         </svg>
       </div>
       <div class="brand-text">
-        <span class="brand-title">Pauta</span>
+        <span class="brand-title">Regional Teresina</span>
         <span class="brand-sub">Calendário de Ensaios</span>
       </div>
       <button class="sidebar-close d-lg-none" id="sidebarClose" aria-label="Fechar menu"><i class="bi bi-x-lg"></i></button>
@@ -51,6 +51,9 @@
       <button class="side-link" data-view="estatisticas">
         <i class="bi bi-bar-chart-line"></i><span>Estatísticas</span>
       </button>
+      <button class="side-link" data-view="musicos">
+        <i class="bi bi-people"></i><span>Músicos (SAM)</span>
+      </button>
       <button class="side-link" data-view="importar">
         <i class="bi bi-file-earmark-arrow-up"></i><span>Importar Excel</span>
       </button>
@@ -64,6 +67,15 @@
       <button class="theme-toggle" id="themeToggle">
         <i class="bi bi-moon-stars"></i><span>Tema escuro</span>
       </button>
+
+  <div class="creator-info">
+    <p>
+      <strong>Desenvoldido por:</strong><br>
+      Daniel Talison (Local Santa Lia])<br>
+      <i class="bi bi-telephone"></i> (32) 9 8888-3345
+    </p>
+  </div>
+
     </div>
   </aside>
   <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
@@ -82,8 +94,7 @@
           <span class="input-group-text"><i class="bi bi-search"></i></span>
           <input type="text" class="form-control" id="globalSearch" placeholder="Buscar congregação, encarregado, cidade...">
         </div>
-        <button class="btn btn-outline-danger btn-sm" id="btnGoClearBase"><i class="bi bi-trash3"></i> Apagar Base</button>
-        <button class="btn btn-accent btn-sm" id="btnGoImport"><i class="bi bi-upload"></i> Importar Base</button>
+        <button class="btn btn-accent btn-sm" id="btnGoImport"><i class="bi bi-upload"></i> Importar</button>
       </div>
     </header>
 
@@ -155,6 +166,10 @@
                 <span class="input-group-text"><i class="bi bi-search"></i></span>
                 <input type="text" class="form-control" id="dashTableSearch" placeholder="Pesquisar na lista...">
               </div>
+              <div class="export-group">
+                <button class="btn btn-outline-secondary btn-sm" id="dashExportXlsx"><i class="bi bi-file-earmark-excel"></i> Excel</button>
+                <button class="btn btn-outline-secondary btn-sm" id="dashExportPdf"><i class="bi bi-file-earmark-pdf"></i> PDF</button>
+              </div>
             </div>
             <div class="table-responsive">
               <table class="table table-hover data-table" id="dashTable">
@@ -191,6 +206,23 @@
 
       <!-- ================= ESTATISTICAS VIEW ================= -->
       <section class="view-panel d-none" id="view-estatisticas">
+        <div class="filter-bar" id="statsFilterBar">
+          <div class="filter-bar-head">
+            <h2><i class="bi bi-funnel"></i> Filtrar estatísticas</h2>
+            <button class="link-btn" id="statsClearFilters">Limpar filtros</button>
+          </div>
+          <div class="filter-grid filter-grid-compact">
+            <div class="filter-field">
+              <label>Setor</label>
+              <div class="ms-dropdown" id="stats-f-setor"></div>
+            </div>
+            <div class="filter-field">
+              <label>Mês</label>
+              <div class="ms-dropdown" id="stats-f-mes"></div>
+            </div>
+          </div>
+          <div class="active-filters" id="statsActiveFilterChips"></div>
+        </div>
         <div class="stat-grid" id="statCards2"></div>
         <div class="stats-grid-2col">
           <div class="panel-card">
@@ -210,6 +242,104 @@
             <div id="byCidade" class="bar-list"></div>
           </div>
         </div>
+      </section>
+
+      <!-- ================= MUSICOS (SAM) VIEW ================= -->
+      <section class="view-panel d-none" id="view-musicos">
+
+        <div class="stat-grid" id="muStatCards"></div>
+
+        <div class="filter-bar" id="muFilterBar">
+          <div class="filter-bar-head">
+            <h2><i class="bi bi-funnel"></i> Filtros</h2>
+            <button class="link-btn" id="muClearFilters">Limpar filtros</button>
+          </div>
+          <div class="filter-grid">
+            <div class="filter-field">
+              <label>Nível</label>
+              <div class="ms-dropdown" id="mf-nivel"></div>
+            </div>
+            <div class="filter-field">
+              <label>Status</label>
+              <div class="ms-dropdown" id="mf-status"></div>
+            </div>
+            <div class="filter-field">
+              <label>Encarregado Regional</label>
+              <div class="ms-dropdown" id="mf-encRegional"></div>
+            </div>
+            <div class="filter-field">
+              <label>Secretário</label>
+              <div class="ms-dropdown" id="mf-secretario"></div>
+            </div>
+            <div class="filter-field">
+              <label>Setor</label>
+              <div class="ms-dropdown" id="mf-setor"></div>
+            </div>
+            <div class="filter-field">
+              <label>Cidade</label>
+              <div class="ms-dropdown" id="mf-cidade"></div>
+            </div>
+            <div class="filter-field">
+              <label>Localidade</label>
+              <div class="ms-dropdown" id="mf-localidade"></div>
+            </div>
+            <div class="filter-field">
+              <label>Instrumento</label>
+              <div class="ms-dropdown" id="mf-instrumento"></div>
+            </div>
+            <div class="filter-field">
+              <label>Tipo (Teresina/Interior)</label>
+              <div class="ms-dropdown" id="mf-tipo"></div>
+            </div>
+          </div>
+          <div class="active-filters" id="muActiveFilterChips"></div>
+        </div>
+
+        <div class="panel-card">
+          <div class="panel-card-head">
+            <h2><i class="bi bi-people"></i> Músicos e Candidatos</h2>
+          </div>
+          <div class="table-toolbar">
+            <div class="input-group input-group-sm table-search">
+              <span class="input-group-text"><i class="bi bi-search"></i></span>
+              <input type="text" class="form-control" id="muTableSearch" placeholder="Pesquisar por nome, localidade, instrumento...">
+            </div>
+            <div class="export-group">
+              <button class="btn btn-outline-secondary btn-sm" id="muExportXlsx"><i class="bi bi-file-earmark-excel"></i> Excel</button>
+              <button class="btn btn-outline-secondary btn-sm" id="muExportPdf"><i class="bi bi-file-earmark-pdf"></i> PDF</button>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover data-table" id="muTable">
+              <thead></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="table-footer">
+            <span id="muTableCount"></span>
+            <div class="pager" id="muTablePager"></div>
+          </div>
+        </div>
+
+        <div class="stats-grid-2col">
+          <div class="panel-card">
+            <div class="panel-card-head"><h2><i class="bi bi-diagram-3"></i> Integrantes por Setor</h2></div>
+            <div id="muBySetor" class="bar-list"></div>
+          </div>
+          <div class="panel-card">
+            <div class="panel-card-head"><h2><i class="bi bi-geo-alt"></i> Integrantes por Cidade</h2></div>
+            <div id="muByCidade" class="bar-list"></div>
+          </div>
+          <div class="panel-card">
+            <div class="panel-card-head"><h2><i class="bi bi-music-note-beamed"></i> Integrantes por Instrumento</h2></div>
+            <div id="muByInstrumento" class="bar-list"></div>
+          </div>
+          <div class="panel-card">
+            <div class="panel-card-head"><h2><i class="bi bi-person-badge"></i> Integrantes por Encarregado Regional</h2></div>
+            <div id="muByRegional" class="bar-list"></div>
+          </div>
+        </div>
+
       </section>
 
       <!-- ================= IMPORTAR VIEW ================= -->
@@ -249,13 +379,46 @@
             <button class="btn btn-outline-danger" id="clearAllData"><i class="bi bi-trash3"></i> Limpar todos os registros</button>
           </div>
         </div>
+
+        <div class="panel-card import-card">
+          <div class="panel-card-head"><h2><i class="bi bi-people"></i> Importar planilha do SAM (Músicos)</h2></div>
+          <p class="muted">
+            A planilha deve conter as colunas do SAM: <code>NOME</code>, <code>INSTRUMENTO</code>,
+            <code>LOCALIDADE</code>, <code>CARGO/MINISTÉRIO</code>, <code>NIVEL</code>,
+            <code>Encarregado Regional</code>, <code>Secretário</code>, <code>Musico ou Canditado</code>,
+            <code>Setor</code>, <code>Musico ou organista</code>, <code>CLASSE</code>, <code>Cidade</code>,
+            <code>Tipo</code>. Linhas sem <code>NOME</code> são ignoradas.
+          </p>
+          <div class="dropzone" id="dropzoneMus">
+            <i class="bi bi-cloud-arrow-up"></i>
+            <p>Arraste o arquivo .xlsx do SAM aqui ou clique para selecionar</p>
+            <input type="file" id="fileInputMus" accept=".xlsx,.xls" hidden>
+          </div>
+          <div id="importSummaryMus" class="import-summary d-none"></div>
+          <div class="import-actions d-none" id="importActionsMus">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="importReplaceMus" checked>
+              <label class="form-check-label" for="importReplaceMus">Substituir dados atuais (em vez de adicionar)</label>
+            </div>
+            <button class="btn btn-accent" id="confirmImportMus"><i class="bi bi-check2-circle"></i> Confirmar importação</button>
+            <button class="btn btn-outline-secondary" id="cancelImportMus">Cancelar</button>
+          </div>
+
+          <hr class="danger-sep">
+          <div class="danger-zone">
+            <div>
+              <h3><i class="bi bi-exclamation-triangle"></i> Zona de risco</h3>
+              <p class="muted">
+                Remove permanentemente todos os músicos/candidatos da base do SAM.
+                Use antes de reimportar uma planilha, para evitar registros duplicados.
+              </p>
+            </div>
+            <button class="btn btn-outline-danger" id="clearAllDataMus"><i class="bi bi-trash3"></i> Limpar todos os músicos</button>
+          </div>
+        </div>
       </section>
 
     </main>
-
-    <footer class="app-footer">
-      <span>Projeto criado por <strong>Daniel Talison</strong> · Contato: (32) 9 8888-3345</span>
-    </footer>
   </div>
 </div>
 
@@ -288,12 +451,41 @@
   </div>
 </div>
 
+<!-- MUSICIAN DETAIL MODAL -->
+<div class="modal fade" id="muModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <span class="modal-tipo-badge" id="muMNivelBadge"></span>
+          <h5 class="modal-title" id="muMNome"></h5>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="detail-grid">
+          <div><i class="bi bi-music-note-beamed"></i><div><label>Instrumento</label><span id="muMInstrumento"></span></div></div>
+          <div><i class="bi bi-geo-alt"></i><div><label>Localidade</label><span id="muMLocalidade"></span></div></div>
+          <div><i class="bi bi-building"></i><div><label>Cidade</label><span id="muMCidade"></span></div></div>
+          <div><i class="bi bi-diagram-3"></i><div><label>Setor</label><span id="muMSetor"></span></div></div>
+          <div><i class="bi bi-person-badge"></i><div><label>Cargo/Ministério</label><span id="muMCargo"></span></div></div>
+          <div><i class="bi bi-person"></i><div><label>Encarregado Regional</label><span id="muMEncRegional"></span></div></div>
+          <div><i class="bi bi-person-lines-fill"></i><div><label>Secretário</label><span id="muMSecretario"></span></div></div>
+          <div><i class="bi bi-tag"></i><div><label>Classe</label><span id="muMClasse"></span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="toast-stack" id="toastStack"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/locales/pt-br.global.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

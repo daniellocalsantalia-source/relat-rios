@@ -239,15 +239,6 @@ button{font-family:inherit;}
 }
 .view-panel{max-width:1400px;}
 
-.app-footer{
-  padding:.9rem 1.8rem 1.2rem;
-  text-align:center;
-  font-size:.78rem;
-  color:var(--text-600);
-  border-top:1px solid var(--line);
-}
-.app-footer strong{color:var(--text-900);}
-
 /* ---------------- Stat cards ---------------- */
 .stat-grid{
   display:grid;
@@ -330,6 +321,12 @@ button{font-family:inherit;}
   grid-template-columns:repeat(4, 1fr);
   gap:.9rem;
 }
+.filter-grid-compact{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.9rem;
+}
+.filter-grid-compact .filter-field{flex:0 0 240px;}
 .filter-field label{
   display:block;
   font-size:.72rem;
@@ -791,10 +788,8 @@ button{font-family:inherit;}
 @media (max-width: 575.98px){
   .stat-grid{grid-template-columns:1fr;}
   .filter-grid{grid-template-columns:1fr;}
-  .topbar{padding:.9rem 1rem; flex-wrap:wrap;}
+  .topbar{padding:.9rem 1rem;}
   .content{padding:1.1rem 1rem 2.5rem;}
-  .topbar-actions{width:100%; margin-left:0; justify-content:flex-end;}
-  .app-footer{padding:.8rem 1rem 1rem; font-size:.72rem;}
   .detail-grid{grid-template-columns:1fr;}
 }
 
